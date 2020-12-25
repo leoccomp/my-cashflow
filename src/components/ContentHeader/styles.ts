@@ -16,6 +16,7 @@ export const Container = styled.div`
 export const TitleContainer = styled.div<ITittleContainerProps>`
   > h1 {
     color: ${props => props.theme.colors.white};
+    cursor: pointer;
 
     &::after {
       content: '';
