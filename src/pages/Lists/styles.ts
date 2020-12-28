@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div``;
 
-export const Content = styled.div``;
+export const Content = styled.main``;
 
 export const Filters = styled.div`
   display: flex;
@@ -20,29 +20,30 @@ export const Filters = styled.div`
     margin: 0 10px;
 
     transition: opacity .3s;
+    opacity: .4;
 
     &:hover {
-      opacity: .7s;
+      opacity: .7;
     }
   }
 
-  .tag-filter-recurrent {
-    &::after {
-      content: '';
-      display: block;
-      width: 55px;
-      margin: 0 auto;
-      border-bottom: 10px solid ${props => props.theme.colors.success};
-    }
+  .tag-filter-recurrent::after {
+    content: '';
+    display: block;
+    width: 55px;
+    margin: 0 auto;
+    border-bottom: 10px solid ${props => props.theme.colors.success};
   }
 
-  .tag-filter-eventual {
-    &::after {
-      content: '';
-      display: block;
-      width: 55px;
-      margin: 0 auto;
-      border-bottom: 10px solid ${props => props.theme.colors.warnig};
-    }
+  .tag-filter-eventual::after {
+    content: '';
+    display: block;
+    width: 55px;
+    margin: 0 auto;
+    border-bottom: 10px solid ${props => props.theme.colors.warnig};
+  }
+
+  .tag-actived {
+    opacity: 1;
   }
 `;
