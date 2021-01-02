@@ -35,20 +35,31 @@ interface IData {
 const List: React.FC<IRouteParams> = ({ match }) => {
   const [data, setData] = useState<IData[]>([]);
   const [selectedFrequency, setSelectedFrequency] = useState<String[]>(['recorrente', 'eventual']);
-  const [monthSelected, setMonthSelected] = useState<string>(String(new Date().getMonth() + 1));
-  const [yearSelected, setYearSelected] = useState<string>(String(new Date().getFullYear()));
+  const [monthSelected, setMonthSelected] = useState<number>(new Date().getMonth() + 1);
+  const [yearSelected, setYearSelected] = useState<number>(new Date().getFullYear());
 
-  const { type } = match.params;
+  const movimentType = match.params.type;
 
-  const listData = useMemo(() => {
-    return type === 'entry-balance' ? gains : expenses; 
-  }, [type]);
-
+  const pageData = useMemo(() => {
+    return movimentType === 'entry-balance' ? 
+    {
+      title: 'Entradas',
+      lineColor: '#4E41F0',
+      data: gains,
+    } : 
+    {
+      title: 'Saídas',
+      lineColor: '#E44C4E',
+      data: expenses,
+    }
+  }, [movimentType]);
+  
   useEffect(() => {
-    const filteredDate = listData.filter(item => {
+    const { data } = pageData;
+    const filteredDate = data.filter(item => {
       const date = new Date(item.date);
-      const month = String(date.getMonth() + 1);
-      const year = String(date.getFullYear());
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
       
       return month === monthSelected && year === yearSelected && selectedFrequency.includes(item.frequency);
     });
@@ -65,15 +76,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     });
     
     setData(response);
-  }, [listData, monthSelected, yearSelected, selectedFrequency]);
-  
-  const title = useMemo(() => {
-    return type === 'entry-balance' ? 'Entradas' : 'Saídas'; 
-  }, [type]);
-  
-  const lineColor = useMemo(() => {
-    return type === 'entry-balance' ? '#F7931b' : '#E44C4E'; 
-  }, [type]);
+  }, [pageData, monthSelected, yearSelected, selectedFrequency]);
   
   const months = useMemo(() => {
     return monthsList.map((month, index) => {
@@ -87,7 +90,9 @@ const List: React.FC<IRouteParams> = ({ match }) => {
   const years = useMemo(() => {
     let uniqueYears: number[] = [];
 
-    listData.forEach(item => {
+    const { data } = pageData;
+
+    data.forEach(item => {
       const date = new Date(item.date);
       const year = date.getFullYear();
 
@@ -101,7 +106,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         label: year,
       }
     });
-  }, [listData]);
+  }, [pageData]);
 
   const handleFrequencyClick = (frequency: string) => {
     const alreadySelected = selectedFrequency.findIndex(item => item === frequency);
@@ -114,11 +119,37 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     }
   }
 
+  const handleMonthSelected = (month: string) => {
+    try{
+      const parseMonth = Number(month);
+      setMonthSelected(parseMonth);
+    } catch (err) {
+      throw new Error('Invalid month value. Is acept 1 - 12');
+    }
+  }
+
+  const handleYearSelected = (year: string) => {
+    try{
+      const parseYear = Number(year);
+      setYearSelected(parseYear);
+    } catch (err) {
+      throw new Error('Invalid year value');
+    }
+  }
+  
   return (
     <Container>
-      <ContentHeader title={title} lineColor={lineColor}>
-        <SelectInput options={months} onChange={(e) => setMonthSelected(e.target.value)} defaultValue={monthSelected} />
-        <SelectInput options={years} onChange={(e) => setYearSelected(e.target.value)} defaultValue={yearSelected} />
+      <ContentHeader title={pageData.title} lineColor={pageData.lineColor}>
+        <SelectInput 
+          options={months} 
+          onChange={(e) => handleMonthSelected(e.target.value)} 
+          defaultValue={monthSelected} 
+        />
+        <SelectInput 
+          options={years} 
+          onChange={(e) => handleYearSelected(e.target.value)} 
+          defaultValue={yearSelected} 
+        />
       </ContentHeader>
       <Filters>
         <button 
