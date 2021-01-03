@@ -1,5 +1,4 @@
 import React from 'react';
-import { MdDescription } from 'react-icons/md';
 
 import { Container } from './styles';
 
