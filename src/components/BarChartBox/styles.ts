@@ -6,35 +6,31 @@ interface ILegendProps {
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  
-  width: 100%;
-  height: 360px;
+
+  width: 48%;
+  min-height: 260px;
 
   margin: 10px 0;
-  padding: 30px 20px;
+  border-radius: 7px;
 
   background-color: ${props => props.theme.colors.tertiary};
   color: ${props => props.theme.colors.white};
-
-  border-radius: 7px;
 `;
 
-export const Header = styled.header`
-  display: flex;
-  justify-content: space-between;
+export const SideLeft = styled.aside`
+  flex: 1;
+  padding: 30px 20px;
 
-  width: 100%;
-  
   > h2 {
+    padding-left: 16px;
     margin-bottom: 10px;
-    padding-left: 15px;
   }
 `;
 
 export const LegendContainer = styled.ul`
-  display: flex;
   list-style: none;
+  max-height: 170px;
+  padding-right: 15px;
 `;
 
 export const Legend = styled.li<ILegendProps>`
@@ -42,7 +38,7 @@ export const Legend = styled.li<ILegendProps>`
   align-items: center;
 
   margin-bottom: 7px;
-  padding: 0 20px;
+  padding-left: 16px;
 
   > div {
     background-color: ${props => props.color};
@@ -58,4 +54,13 @@ export const Legend = styled.li<ILegendProps>`
   > span {
     margin-left: 5px;
   }
+`;
+
+export const SideRight = styled.main`
+  display: flex;
+  justify-content: center;
+  flex: 1;
+
+  padding-top: 35px;
+  padding-bottom: 20px;
 `;
