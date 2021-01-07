@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import emojis from '../../utils/emojis';
-import Toogle from '../Toogle';
+import Toggle from '../Toogle';
 
 import { useTheme } from '../../hooks/theme';
 
@@ -9,7 +9,7 @@ import {
   Container, 
   Profile, 
   Welcome, 
-  UserName 
+  UserName
 } from './styles';
 import dark from '../../styles/themes/dark';
 
@@ -24,7 +24,7 @@ const MainHeader: React.FC = () => {
 
   return (
     <Container>
-      <Toogle 
+      <Toggle 
         labelLeft="Light"
         labelRight="Dark"
         checked={darkTheme}
